@@ -14,7 +14,7 @@ const fixture = function(glob) {
 }
 
 describe('gulp-elm-basic', function() {
-  let stream
+  var stream
 
   beforeEach(function() {
     stream = elm({ cwd: path.join(__dirname, 'fixture') })
