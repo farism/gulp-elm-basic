@@ -1,0 +1,38 @@
+{
+  "name": "gulp-elm-basic",
+  "version": "0.1.0",
+  "description": "a gulp plugin wrapping node-elm-compiler",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "pretty": "prettier --write --no-semi --single-quote --trailing-comma es5",
+    "test": "mocha ./test/**.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farism/gulp-elm-basic.git"
+  },
+  "keywords": [
+    "gulpplugin",
+    "elm"
+  ],
+  "author": "Faris Mustafa <farismmk@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/farism/gulp-elm-basic/issues"
+  },
+  "homepage": "https://github.com/farism/gulp-elm-basic#readme",
+  "dependencies": {
+    "node-elm-compiler": "^4.3.2",
+    "through2": "^2.0.3",
+    "vinyl": "^2.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.4",
+    "mocha": "^3.5.0",
+    "prettier": "^1.6.1",
+    "stream-assert": "^2.0.3"
+  }
+}
