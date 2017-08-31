@@ -1,71 +1,34 @@
-# gulp-elm-css [![Circle CI](https://circleci.com/gh/farism/gulp-elm-css/tree/master.svg?style=svg)](https://circleci.com/gh/farism/gulp-elm-css/tree/master)
+# gulp-elm-basic [![Circle CI](https://circleci.com/gh/farism/gulp-elm-basic/tree/master.svg?style=svg)](https://circleci.com/gh/farism/gulp-elm-basic/tree/master)
 
-Given an `*.elm` file, it will use [`elm-css`](https://github.com/rtfeldman/elm-css) to generate `*.css` files. A vinyl object will be emitted for each `*.css` file that is generated.
+Given an `*.elm` file, it will use [`node-elm-compiler`](https://github.com/rtfeldman/node-elm-compiler) to compile and produce vinyl objects.
 
 #### Example
 
 on the elm side
 
 ```elm
--- HomeCss.elm
+-- Main.elm
 
-module HomeCss exposing (..)
+module Main exposing (..)
 
-import Css exposing (..)
-import Css.Namespace exposing (namespace)
-
-
-type CssIds
-    = Home
+import Html exposing (Html, div, p)
 
 
-css =
-    (stylesheet << namespace "home")
-        [ id Home
-            [ backgroundColor (hex "000000")
-            , color (hex "FFFFFF")
-            ]
-        ]
-
-```
-```elm
--- MyStyles.elm
-
-port module MyStyles exposing (..)
-
-import Css.File exposing (CssFileStructure, CssCompilerProgram)
-import AboutCss
-import HomeCss
-import SharedCss
-
-
-port files : CssFileStructure -> Cmd msg
-
-
-fileStructure : CssFileStructure
-fileStructure =
-    Css.File.toFileStructure
-        [ ( "shared.css", Css.File.compile [ SharedCss.css ] )
-        , ( "home.css", Css.File.compile [ HomeCss.css ] )
-        , ( "about.css", Css.File.compile [ AboutCss.css ] )
-        ]
-
-
-main : CssCompilerProgram
+main : Html a
 main =
-    Css.File.compiler files fileStructure
+    div [] [ Html.text "hello world" ]
 
 ```
 
 on the gulp side
 
 ```js
-const elmCss = require('gulp-elm-css')
+const elm = require('gulp-elm-basic')
 
-gulp.task('compile-css', () => {
-  return gulp.src('MyStyles.elm')
-    .pipe(elmCss({ module: 'MyStyles '}))
-    .pipe(cssnano())
-    .pipe(gulp.dest('build'))
+gulp.task('compile-elm', () => {
+  return gulp.src('Main.elm')
+    .pipe(elmCss())
+    .pipe(uglifyjs())
+    .pipe(gulp.dest('build')) // output to /dist/Main.js
 })
 ```

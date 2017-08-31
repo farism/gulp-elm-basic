@@ -22,7 +22,7 @@ module.exports = function(options) {
       return callback()
     }
 
-    const opts = Object.assign({}, defaults, options)
+    const opts = Object.assign({}, defaults, options || {})
     const _this = this
 
     elm
