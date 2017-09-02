@@ -68,7 +68,9 @@ describe('gulp-elm-basic', function() {
 
     stream
       .once('error', function(err) {
-        expect(err.message).to.equal('gulp-elm-basic: error')
+        expect(err.message).to.equal(
+          'gulp-elm-basic: node-elm-compiler Errored with exit code 1'
+        )
       })
       .pipe(assert.end(done))
 

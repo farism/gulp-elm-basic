@@ -36,7 +36,7 @@ module.exports = function(options) {
           verbose: opts.verbose,
           yes: true,
           processOpts: {
-            stdio: 'ignore',
+            stdio: 'inherit',
           },
         })
         .on('close', function(exitCode) {
@@ -51,13 +51,12 @@ module.exports = function(options) {
               callback()
             })
           } else {
-            _this.emit('error', new Error(`${PLUGIN}: error`))
+            _this.emit(
+              'error',
+              new Error(`${PLUGIN}: node-elm-compiler Errored with exit code 1`)
+            )
             callback()
           }
-        })
-        .on('error', function(e) {
-          _this.emit('error', new Error(`${PLUGIN}: error`))
-          callback()
         })
     })
   }
