@@ -1,6 +1,6 @@
 {
   "name": "gulp-elm-basic",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "a gulp plugin wrapping node-elm-compiler",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/farism/gulp-elm-basic#readme",
   "dependencies": {
-    "elm": "^0.18.0",
     "node-elm-compiler": "^4.3.2",
     "through2": "^2.0.3",
     "tmp": "^0.0.33",
@@ -36,5 +35,8 @@
     "mocha": "^3.5.0",
     "prettier": "^1.6.1",
     "stream-assert": "^2.0.3"
+  },
+  "peerDependencies": {
+    "elm": "^0.18.0"
   }
 }
