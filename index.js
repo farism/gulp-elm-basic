@@ -1,7 +1,9 @@
 const elm = require('node-elm-compiler')
 const File = require('vinyl')
+const fs = require('fs')
 const through = require('through2')
 const path = require('path')
+const tmp = require('tmp')
 
 const PLUGIN = 'gulp-elm-basic'
 
@@ -25,27 +27,39 @@ module.exports = function(options) {
     const opts = Object.assign({}, defaults, options || {})
     const _this = this
 
-    elm
-      .compileToString(file.path, {
-        cwd: opts.cwd,
-        debug: opts.debug,
-        verbose: opts.verbose,
-        yes: true,
-      })
-      .then(function(contents) {
-        _this.push(
-          new File({
-            path: path.basename(file.path).replace('.elm', '.js'),
-            contents: Buffer(contents),
-          })
-        )
-
-        callback()
-      })
-      .catch(function(e) {
-        _this.emit('error', new Error(`${PLUGIN}: error`))
-        callback()
-      })
+    tmp.file({ postfix: '.js' }, function(err, tmpFile) {
+      elm
+        .compile(file.path, {
+          output: tmpFile,
+          cwd: opts.cwd,
+          debug: opts.debug,
+          verbose: opts.verbose,
+          yes: true,
+          processOpts: {
+            stdio: 'ignore',
+          },
+        })
+        .on('close', function(exitCode) {
+          if (exitCode === 0) {
+            fs.readFile(tmpFile, function(err, contents) {
+              _this.push(
+                new File({
+                  path: path.basename(file.path).replace('.elm', '.js'),
+                  contents: contents,
+                })
+              )
+              callback()
+            })
+          } else {
+            _this.emit('error', new Error(`${PLUGIN}: error`))
+            callback()
+          }
+        })
+        .on('error', function(e) {
+          _this.emit('error', new Error(`${PLUGIN}: error`))
+          callback()
+        })
+    })
   }
 
   return through.obj(transform)

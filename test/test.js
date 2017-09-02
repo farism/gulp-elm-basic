@@ -30,6 +30,7 @@ describe('gulp-elm-basic', function() {
     }
 
     stream.pipe(assertContents(0, output)).pipe(assert.end(done))
+
     stream.write(
       new File({
         path: fixture('Main.elm'),
@@ -39,6 +40,7 @@ describe('gulp-elm-basic', function() {
     stream.on('error', e => {
       console.log(e)
     })
+
     stream.end()
   })
 
@@ -48,6 +50,7 @@ describe('gulp-elm-basic', function() {
         expect(err.message).to.eql('gulp-elm-basic: Streaming not supported')
       })
       .pipe(assert.end(done))
+
     stream.write({
       isNull: function() {
         return false
@@ -56,6 +59,7 @@ describe('gulp-elm-basic', function() {
         return true
       },
     })
+
     stream.end()
   })
 
@@ -67,12 +71,14 @@ describe('gulp-elm-basic', function() {
         expect(err.message).to.equal('gulp-elm-basic: error')
       })
       .pipe(assert.end(done))
+
     stream.write(
       new File({
         path: fixture('MainBADPATH.elm'),
         contents: Buffer(''),
       })
     )
+
     stream.end()
   })
 
